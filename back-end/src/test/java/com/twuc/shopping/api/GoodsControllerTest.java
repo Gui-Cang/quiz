@@ -32,12 +32,12 @@ class GoodsControllerTest {
             .andExpect(jsonPath("$[3].nameOfGoods", is("可乐1")))
             .andExpect(jsonPath("$[4].nameOfGoods", is("可乐1")))
             .andExpect(jsonPath("$[5].nameOfGoods", is("可乐1")))
-            .andExpect(jsonPath("$[0].nameOfGoods", is("可乐1")))
-            .andExpect(jsonPath("$[1].priceOfGoods", is("1.00")))
-            .andExpect(jsonPath("$[2].priceOfGoods", is("1.00")))
-            .andExpect(jsonPath("$[3].priceOfGoods", is("1.00")))
-            .andExpect(jsonPath("$[4].priceOfGoods", is("1.00")))
-            .andExpect(jsonPath("$[5].priceOfGoods", is("1.00")));
+            .andExpect(jsonPath("$[0].priceOfGoods", is(1.00d)))
+            .andExpect(jsonPath("$[1].priceOfGoods", is(1.00d)))
+            .andExpect(jsonPath("$[2].priceOfGoods", is(1.00d)))
+            .andExpect(jsonPath("$[3].priceOfGoods", is(1.00d)))
+            .andExpect(jsonPath("$[4].priceOfGoods", is(1.00d)))
+            .andExpect(jsonPath("$[5].priceOfGoods", is(1.00d)));
 }
 
 
