@@ -29,14 +29,19 @@ public class GoodsController {
     }
 
     @GetMapping("/goods/list")
-    public List<Goods> getGoodsBetween
-            (@RequestParam(required = false) Integer start, @RequestParam(required = false) Integer end)
+    public List<Goods> getGoodsList ()
     {
-        return goods.subList(start - 1, end);
+        return goods;
     }
+
     @PostMapping("/goods")
-    public ResponseEntity addRsEvent(@RequestBody Goods goods) {
+    public ResponseEntity addGood(@RequestBody Goods goods) {
         goodsService.createGood(goods);
         return  ResponseEntity.created(null).build();
+    }
+
+    @DeleteMapping("/goods/{index}")
+    public void deleteGood(@PathVariable int index) {
+        goods.remove(index - 1);
     }
 }

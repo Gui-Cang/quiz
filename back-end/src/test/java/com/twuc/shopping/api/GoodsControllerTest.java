@@ -4,7 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.twuc.shopping.GoodsDto.GoodsDto;
 import com.twuc.shopping.domain.Goods;
 import com.twuc.shopping.repository.GoodsRepository;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,40 +19,42 @@ import java.util.List;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class GoodsControllerTest {
-@Autowired
+    @Autowired
     MockMvc mockMvc;
-@Autowired
+    @Autowired
     GoodsRepository goodsRepository;
 
-@Test
-    public void should_get_goods_list () throws Exception {
-    mockMvc.perform(get("/goods/list"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$",hasSize(6)))
-            .andExpect(jsonPath("$[0].nameOfGoods", is("可乐1")))
-            .andExpect(jsonPath("$[1].nameOfGoods", is("可乐2")))
-            .andExpect(jsonPath("$[2].nameOfGoods", is("可乐3")))
-            .andExpect(jsonPath("$[3].nameOfGoods", is("可乐4")))
-            .andExpect(jsonPath("$[4].nameOfGoods", is("可乐5")))
-            .andExpect(jsonPath("$[5].nameOfGoods", is("可乐6")))
-            .andExpect(jsonPath("$[0].priceOfGoods", is(1.00d)))
-            .andExpect(jsonPath("$[1].priceOfGoods", is(1.00d)))
-            .andExpect(jsonPath("$[2].priceOfGoods", is(1.00d)))
-            .andExpect(jsonPath("$[3].priceOfGoods", is(1.00d)))
-            .andExpect(jsonPath("$[4].priceOfGoods", is(1.00d)))
-            .andExpect(jsonPath("$[5].priceOfGoods", is(1.00d)));
-}
+    @Test
+    @Order(1)
+    public void should_get_goods_list() throws Exception {
+        mockMvc.perform(get("/goods/list"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(6)))
+                .andExpect(jsonPath("$[0].nameOfGoods", is("可乐1")))
+                .andExpect(jsonPath("$[1].nameOfGoods", is("可乐2")))
+                .andExpect(jsonPath("$[2].nameOfGoods", is("可乐3")))
+                .andExpect(jsonPath("$[3].nameOfGoods", is("可乐4")))
+                .andExpect(jsonPath("$[4].nameOfGoods", is("可乐5")))
+                .andExpect(jsonPath("$[5].nameOfGoods", is("可乐6")))
+                .andExpect(jsonPath("$[0].priceOfGoods", is(1.00d)))
+                .andExpect(jsonPath("$[1].priceOfGoods", is(1.00d)))
+                .andExpect(jsonPath("$[2].priceOfGoods", is(1.00d)))
+                .andExpect(jsonPath("$[3].priceOfGoods", is(1.00d)))
+                .andExpect(jsonPath("$[4].priceOfGoods", is(1.00d)))
+                .andExpect(jsonPath("$[5].priceOfGoods", is(1.00d)));
+    }
 
     @Test
-    public void should_add_new_good () throws Exception {
-        Goods goods = new Goods("可乐3",3.00d);
+    @Order(2)
+    public void should_add_new_good() throws Exception {
+        Goods goods = new Goods("可乐3", 3.00d);
         ObjectMapper objectMapper = new ObjectMapper();
         String added = objectMapper.writeValueAsString(goods);
 
@@ -59,8 +64,20 @@ class GoodsControllerTest {
         GoodsDto goodsDto = all.get(0);
 
         assertEquals(1, all.size());
-        assertEquals(goodsDto.getNameOfGoods(),goods.getNameOfGoods());
-        assertEquals(goodsDto.getPriceOfGoods(),goods.getPriceOfGoods());
+        assertEquals(goodsDto.getNameOfGoods(), goods.getNameOfGoods());
+        assertEquals(goodsDto.getPriceOfGoods(), goods.getPriceOfGoods());
     }
+
+    @Test
+    @Order(3)
+    public void should_delete_good() throws Exception {
+        mockMvc.perform(delete("/goods/6"));
+
+        mockMvc.perform(get("/good"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[4].nameOfGoods", is("可乐5")))
+                .andExpect(jsonPath("$[4].priceOfGoods", is(1.00)));
+    }
+
 
 }
