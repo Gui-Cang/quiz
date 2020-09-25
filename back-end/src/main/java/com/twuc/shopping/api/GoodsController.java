@@ -34,5 +34,9 @@ public class GoodsController {
     {
         return goods.subList(start - 1, end);
     }
-
+    @PostMapping("/goods")
+    public ResponseEntity addRsEvent(@RequestBody Goods goods) {
+        goodsService.createGood(goods);
+        return  ResponseEntity.created(null).build();
+    }
 }
