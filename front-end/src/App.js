@@ -1,28 +1,33 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import product from './component/good/product';
-import end from './component/end/end';
+import mallLink from './component/mallLink';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <mallLink/>
+      <a className="mall"
+        href="https://www.baidu.com/"
+        target="_blank"
+        rel="noopener noreferrer">
+        商城
+      </a>
+      <a className="order"
+        href="https://www.baidu.com/"
+        target="_blank"
+        rel="noopener noreferrer">
+        订单
+      </a>
+      <a className="addGoods"
+        href="https://www.baidu.com/"
+        target="_blank"
+        rel="noopener noreferrer">
+        添加商品
+      </a>
+      </header>    
       <product/>
-      <end/>
+      <end/> 
     </div>
   );
 }
